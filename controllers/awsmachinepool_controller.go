@@ -158,7 +158,7 @@ func (r *AWSMachinePoolReconciler) reconcileNormal(ctx context.Context, awsMachi
 			logger.Error(err, "failed to add finalizer on AWSMachinePool")
 			return ctrl.Result{}, errors.WithStack(err)
 		}
-		logger.Info("successfully added finalizer to AWSMachinePool", "finalizer_name", iam.NodesRole)
+		logger.Info("successfully added finalizer to AWSMachinePool", "finalizer_name", key.FinalizerName(iam.NodesRole))
 	}
 
 	err := iamService.ReconcileRole()

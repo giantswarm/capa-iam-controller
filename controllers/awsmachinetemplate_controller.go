@@ -217,7 +217,7 @@ func (r *AWSMachineTemplateReconciler) reconcileNormal(ctx context.Context, iamS
 			logger.Error(err, "failed to add finalizer on AWSMachineTemplate")
 			return ctrl.Result{}, errors.WithStack(err)
 		}
-		logger.Info("successfully added finalizer to AWSMachineTemplate", "finalizer_name", iam.ControlPlaneRole)
+		logger.Info("successfully added finalizer to AWSMachineTemplate", "finalizer_name", key.FinalizerName(iam.ControlPlaneRole))
 	}
 
 	// add finalizer to AWSCluster
@@ -232,7 +232,7 @@ func (r *AWSMachineTemplateReconciler) reconcileNormal(ctx context.Context, iamS
 			logger.Error(err, "failed to add finalizer on AWSCluster")
 			return ctrl.Result{}, errors.WithStack(err)
 		}
-		logger.Info("successfully added finalizer to AWSCluster", "finalizer_name", iam.ControlPlaneRole)
+		logger.Info("successfully added finalizer to AWSCluster", "finalizer_name", key.FinalizerName(iam.ControlPlaneRole))
 	}
 
 	err := iamService.ReconcileRole()

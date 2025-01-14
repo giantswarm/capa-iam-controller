@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dynamically calculate CAPI and CAPA versions from go cache, so that we use the right path when installing the CRDs during tests.
 
+### Fixed
+
+- Fix logged finalizer names
+
 ## [0.28.0] - 2024-09-20
 
 ### Changed
