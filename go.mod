@@ -2,7 +2,7 @@ module github.com/giantswarm/capa-iam-operator
 
 go 1.23.0
 
-toolchain go1.23.4
+toolchain go1.23.5
 
 require (
 	github.com/aws/aws-sdk-go v1.55.5
