@@ -6,6 +6,8 @@ import (
 	"text/template"
 )
 
+const AWSReducedInstanceProfileIAMPermissionsForWorkersLabel = "alpha.aws.giantswarm.io/reduced-instance-permissions-workers"
+
 func generatePolicyDocument(t string, params interface{}) (string, error) {
 	tmpl, err := template.New("policy").Parse(t)
 	if err != nil {
@@ -45,14 +47,21 @@ func isChinaRegion(region string) bool {
 	return strings.Contains(region, "cn-")
 }
 
-func getInlinePolicyTemplate(roleType string) string {
+func getInlinePolicyTemplate(roleType string, objectLabels map[string]string) string {
 	switch roleType {
 	case BastionRole:
 		return bastionPolicyTemplate
 	case ControlPlaneRole:
 		return controlPlanePolicyTemplate
 	case NodesRole:
-		return nodesTemplate
+		if labelValue := objectLabels[AWSReducedInstanceProfileIAMPermissionsForWorkersLabel]; labelValue == "true" {
+			// Reduce permissions to zero. All applications on worker nodes that want to reach the AWS API must use
+			// IRSA for credentials and must not fall back to the EC2 instance's IAM instance profile.
+			return ""
+		} else {
+			// Previous default
+			return nodesTemplate
+		}
 	case Route53Role:
 		return route53RolePolicyTemplate
 	case KIAMRole:

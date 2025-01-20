@@ -94,7 +94,8 @@ var _ = Describe("AWSMachinePoolReconciler", func() {
 		err = k8sClient.Create(ctx, &capa.AWSCluster{
 			ObjectMeta: metav1.ObjectMeta{
 				Labels: map[string]string{
-					"cluster.x-k8s.io/cluster-name": "test-cluster",
+					"cluster.x-k8s.io/cluster-name":                                "test-cluster",
+					"alpha.aws.giantswarm.io/reduced-instance-permissions-workers": "true",
 				},
 				Name:      "my-awsc",
 				Namespace: namespace,

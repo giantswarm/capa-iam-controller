@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"maps"
 
 	awsclientgo "github.com/aws/aws-sdk-go/aws/client"
 	"github.com/aws/aws-sdk-go/service/iam/iamiface"
@@ -97,6 +98,7 @@ func (r *AWSMachinePoolReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	var iamService *iam.IAMService
 	{
 		c := iam.IAMServiceConfig{
+			ObjectLabels:     maps.Clone(awsMachinePool.GetLabels()),
 			AWSSession:       awsClientSession,
 			ClusterName:      clusterName,
 			MainRoleName:     awsMachinePool.Spec.AWSLaunchTemplate.IamInstanceProfile,
